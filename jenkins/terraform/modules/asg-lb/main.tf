@@ -9,6 +9,14 @@ resource "aws_security_group" "alb_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description      = "https connection"
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -66,7 +74,7 @@ resource "aws_security_group" "instance_sg" {
   }
 }
 
-# creates load balancer tartget group for jenkins instances for 8080 and http 
+# creates load balancer target group for jenkins instances for 8080 and http 
 resource "aws_lb_target_group" "jenkins" {
   name_prefix = "jks-lb"
   port        = 8080
@@ -90,17 +98,42 @@ resource "aws_lb_target_group" "jenkins" {
   }
 }
 
-# creates http load balancer listener
+# creates http (port 80) load balancer listener with redirect action
 resource "aws_lb_listener" "jenkins" {
   load_balancer_arn = aws_lb.jenkins.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_lb_target_group.jenkins.arn
-    type             = "forward"
+    type             = "redirect"
+
+    redirect {
+      host                          = "#{host}"
+      path                          =  "/#{host}"
+      port                          = "443"
+      protocol                      = "HTTPS"
+      status_code                   = "HTTP_301"
+    }
   }
 }
+
+
+# creates a listener on port 443 with forward action
+resource "aws_lb_listener" "front_end" {
+  load_balancer_arn                 = aws_lb.jenkins.arn
+  port                              = "443"
+  protocol                          = "HTTPS"
+  ssl_policy                        = "ELBSecurityPolicy-2016-08"
+  certificate_arn                   = var.ssl_certificate_arn
+
+  default_action {
+    type                            = "forward"
+    target_group_arn                = aws_lb_target_group.jenkins.arn
+  }
+}
+
+
+
 
 # launch templates that uses jenkins-controller ami and the instance security group
 resource "aws_launch_template" "jenkins" {

@@ -100,6 +100,8 @@ Replace the subnets IDs in the terraform/agent/main.tf
 Replace the key name with your ssh keypair name
 Replace AMI Id with the AMI id of your Jenkins agent AMI Id
 If you want more than one Jenkins agent, you can replace the instance_count number with the required number of agents.
+ `terraform apply --auto-approve`
+
 
 copy the IP address of the agent node
 

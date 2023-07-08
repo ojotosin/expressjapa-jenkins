@@ -22,3 +22,9 @@ variable "subnets" {
   description = "A list of subnet IDs to use for the resources."
   type        = list(string)
 }
+
+variable "ssl_certificate_arn" {
+  default = "ssl certificate arn"
+  type = string
+  
+}
