@@ -1,5 +1,9 @@
 pipeline {
-  agent Agent-01
+  agent {
+    node {
+        label 'Agent-01'
+    }
+  }
   
   stages {
     stage('Clone Repository') {
