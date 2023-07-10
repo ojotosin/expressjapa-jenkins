@@ -171,10 +171,10 @@ resource "aws_autoscaling_group" "jenkins" {
     ignore_changes        = [load_balancers, target_group_arns]
   }
 
-  # instance_refresh {
-  #   strategy = "Rolling"
-  #   triggers = ["launch_template"]
-  # }
+   instance_refresh {
+     strategy = "Rolling"
+     triggers = ["launch_template"]
+   }
 }
 
 # attaches autoscaling to the target group

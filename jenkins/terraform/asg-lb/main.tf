@@ -5,7 +5,7 @@ provider "aws" {
 module "asg-lb" {
   source        = "../modules/asg-lb"
   subnets       = ["subnet-0b01d37d289c7fd1d", "subnet-01395b76a07ba911b", "subnet-01e4aa3186984261c"]
-  ami_id        = "ami-0f668d8c4ecff167c"
+  ami_id        = "ami-0db34be85e823b8e2"
   instance_type = "t2.small"
   key_name      = "my-us-west-keypair"
   environment   = "dev"

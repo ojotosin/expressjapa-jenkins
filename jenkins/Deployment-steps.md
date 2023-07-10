@@ -46,7 +46,7 @@ Replace the ami-id in jenkins-controller.pkr.hcl file
 Replace the DNS in the following command with the EFS DNS endpoint:
 Execute the jenkins-controller.pkr.hcl Packer configuration file with the EFS DNS endpoint. 
 
-`packer build -var "efs_mount_point=fs-05630cc17c807144a.efs.us-west-2.amazonaws.com" jenkins-controller.pkr.hcl`
+`packer build -var "efs_mount_point=fs-00b91a5febc95654e.efs.us-west-2.amazonaws.com" jenkins-controller.pkr.hcl`
 
 note down the ami-id, as it will be needed during autoscaling setup
 
@@ -94,7 +94,11 @@ ssh into the instance using the keypair you provided during the setup
 - Create admin user and log into jenkins
 
 
-# 6. Deploy Jenkins Agent
+# 6. ssl and route53
+cd terraform/acm-route53
+
+
+# 7. Deploy Jenkins Agent
 cd terraform/agent
 Replace the subnets IDs in the terraform/agent/main.tf
 Replace the key name with your ssh keypair name
@@ -103,22 +107,22 @@ If you want more than one Jenkins agent, you can replace the instance_count numb
  `terraform apply --auto-approve`
 
 
-copy the IP address of the agent node
+copy the public IP address of the agent node
 
 - Configure Agent with Jenkins Controller Node 
 Jenkins > Manage jenkins > Manage Nodes and Clouds > New Node > name + permanent agent
-Name = Agent01
+Name = Agent-01
 Description = Jenkins SSH agent
 Remote root directory = /home/ubuntu
-Labels = AGENTO1
+Labels = Agent-01
 Launch method = Launch agent via SSH
 Host = ip_of_the_Jenkins_agent_node
 Credentials = Jenkins
     Kind = SSH username with private key
     ID = jenkins-SSH-cred
-    Description = SSH auth for Agent01
+    Description = SSH auth for Agent-01
     Username = ubuntu (it's the default sudo user for ubuntu which is the base ami for agent01)
-    private Hey = copy and paste from AWS parameter store
+    private Hey = copy and paste the private 'id_rsa' created earlier from AWS parameter store
     Add
 Select the just created credential
 Host Key Verification Strategy = Non verifying Verification Strategy
@@ -137,7 +141,7 @@ echo "Hello World"
 Apply + save
 Build Now
 
-# 7.  Test Jenkins High Availability
+# 8.  Test Jenkins High Availability
 To test the Jenkins availabilty by terminating the controller instance
 Check to see if another instance comes up and mounts to the efs properly having data and config intact
 Check the target group, you'll see 0 healthy instance
@@ -145,7 +149,7 @@ Give it a few minutes, the instance will be back up by itself and the target gro
 Check the load balancer dns to see if the new instance is using the efs mount and that the data is consistent with previous instance
 Login again to the jenkins controller and verify
 
-# 8.  Patching & Upgrading Jenkins Controller
+# 9.  Patching & Upgrading Jenkins Controller
 Upgrading/Patching Jenkins with a newer version the Immutable Way
  Every organization servers must be patched monthly with the latest OS patches for security compliance
  If you follow an immutable model, when there is a patch or security upgrade you can not do it in existing VMs
@@ -163,7 +167,7 @@ To upgrade jenkins to a new server
 
 ##  Clean Up
 - Execute terraform destroy from the respective Terraform folder.
-agent,asg-lb, efs, iam
+agent, acm-route53, asg-lb, efs, iam
 - To deregister the AMIs, use the following AWS CLI commands
 
 `aws ec2 describe-images --filters "Name=name,Values=jenkins-controller,jenkins-agent" --query 'Images[*].ImageId' --output text | tr '\t' '\n' | xargs -I {} aws ec2 deregister-image --image-id {}`

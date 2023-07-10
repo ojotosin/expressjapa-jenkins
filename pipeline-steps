@@ -1,0 +1,110 @@
+PLUGINS
+# Install the following plugins
+- GitHub Integration 
+- Cloudbees aws credentials 
+- Docker
+- Git
+- Blueocean
+
+
+
+
+
+GITHUB:
+
+##### Git Host Key Verification Configuration
+- Manage jenkins > Configure Global Security
+  Scroll all the way down
+  Git Host Key Verification Configuration = No verificatio
+
+# a. Generate a ssh key and upload the puplic key on github
+
+ 
+ 
+## b. Configure GitHub Integration in Jenkins:
+
+- Manage Jenkins > Configure System > GitHub > Add GitHub Server
+  Enter a suitable name for the server configuration. = Github-Jenkin
+  API Endpoint > provide the URL for the GitHub API (https://api.github.com/)
+  Credentials > Add > Secret text
+  Paste personal access token in the "Secret" field
+  Enter a suitable ID = Github-Jenkin-PAT
+  Description for the credential = github jenkins auth
+  Add + Save
+
+# OR
+
+## c. Configure the username and private key on jenkins
+    >Manage jenkins > manage credentials > System 
+    >Global credentials > Add credentials
+    >Kind = SSH Username with private key
+    >Scope = Global
+    >ID = github-jenkins-ssh-key
+    >Description = github-jenkins-ssh-key
+    >Username = ojotosin
+    >Private Key = 
+    >create 
+    
+
+  
+AWS:
+
+# a. Download and install aws credentials plugin (cloudbees) on jenkins
+
+# b. Create IAM user with programmatic access and download the user and access key
+
+
+## c. Add the credentials and access key and secret access key on jenkins
+    >Manage jenkins > manage credentials > System 
+    >Global credentials > Add credentials
+    >Kind = AWS credentials
+    >Scope = Global
+    >ID = aws-jenkins
+    >Description = 'aws-jenkins-dev'
+    >Access Key ID = 
+    >Secret Access Key = 
+    >save  
+    
+
+DOCKER:
+
+# a. Install Docker Plugin:
+
+- Manage Jenkins" -> "Manage Plugins" -> "Available" tab
+  search for "Docker" plugin > Install without restart
+  
+# b. Configure Docker Cloud: 
+  
+- Manage Jenkins > Manage nodes and cloud > Configure Clouds 
+Add a new cloud > Docker
+  
+  Provide a name for the cloud = Docker
+  Docker Host URI = localhost
+  Server credentials > Add > Jenkins
+
+
+
+  Save
+
+    
+
+
+    
+## SET UP A JENKINS PIPELINE:    
+
+
+
+
+Write a jenkins pipeline
+
+New item
+Name = express_japa_build_pipeline > OK
+Description = expressjapa web application pipeline
+Build Triggers
+Poll SCM = */5****
+Pipeline = Pipeline script from SCM
+SCM = Git
+Repository URL = git@github.com:ojotosin/expressjapa-jenkins.git
+Credentials = ojotosin
+Branches to build = main
+Script Path = Jenkinsfile
