@@ -46,7 +46,7 @@ Replace the ami-id in jenkins-controller.pkr.hcl file
 Replace the DNS in the following command with the EFS DNS endpoint:
 Execute the jenkins-controller.pkr.hcl Packer configuration file with the EFS DNS endpoint. 
 
-`packer build -var "efs_mount_point=fs-00b91a5febc95654e.efs.us-west-2.amazonaws.com" jenkins-controller.pkr.hcl`
+`packer build -var "efs_mount_point=fs-07af0dbaa0b15328a.efs.us-west-2.amazonaws.com" jenkins-controller.pkr.hcl`
 
 note down the ami-id, as it will be needed during autoscaling setup
 
@@ -116,7 +116,7 @@ Description = Jenkins SSH agent
 Remote root directory = /home/ubuntu
 Labels = Agent-01
 Launch method = Launch agent via SSH
-Host = ip_of_the_Jenkins_agent_node
+Host = public ip_of_the_Jenkins_agent
 Credentials = Jenkins
     Kind = SSH username with private key
     ID = jenkins-SSH-cred

@@ -33,6 +33,6 @@ resource "aws_instance" "example" {
   subnet_id = element(var.subnet_ids, count.index % length(var.subnet_ids))
 
   root_block_device {
-    volume_size = 50  # Increase the volume size to allocate more disk space
+    volume_size = 40  # Increase the volume size to allocate more disk space
   }
 }
