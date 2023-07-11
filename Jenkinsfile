@@ -38,14 +38,11 @@ pipeline {
       }
       
       steps {
-        withCredentials([string(credentialsId: 'aws-jenkins', variable: 'AWS_ACCESS_KEY_ID'),
-                         string(credentialsId: 'aws-jenkins', variable: 'AWS_SECRET_ACCESS_KEY'),]) {
           script {
               sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin 774443160673.dkr.ecr.us-east-1.amazonaws.com'
               sh 'sudo docker tag expressjapa:latest 774443160673.dkr.ecr.us-east-1.amazonaws.com/expressjapa:latest'
               sh 'sudo docker push 774443160673.dkr.ecr.us-east-1.amazonaws.com/expressjapa:latest'
           }
-        }
       }
     }
     
