@@ -52,13 +52,10 @@ pipeline {
       }
       
       steps {
-        withCredentials([string(credentialsId: 'aws-jenkins', variable: 'AWS_ACCESS_KEY_ID'),
-                         string(credentialsId: 'aws-jenkins', variable: 'AWS_SECRET_ACCESS_KEY')]) {
-          dir('terraform-web-infrastructure') {
+          dir('../terraform-web-infrastructure') {
             sh 'terraform init'
             sh 'terraform apply -auto-approve'
           }
-        }
       }
     }
   }
