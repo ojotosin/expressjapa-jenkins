@@ -92,6 +92,12 @@ RUN unzip -o $REPOSITORY_NAME/$WEB_FILE_ZIP -d $REPOSITORY_NAME/
 # Copy the web files (plus hidden files .htaccess and .editorconfig) into the HTML directory
 RUN cp -avR $REPOSITORY_NAME/$WEB_FILE_UNZIP/. /var/www/html
 
+# Copy .htaccess
+RUN cp .htaccess /var/www/html
+
+# Copy .htaccess
+RUN cp .editorconfig /var/www/html
+
 # Remove the cloned repo
 RUN rm -rf $REPOSITORY_NAME
 
