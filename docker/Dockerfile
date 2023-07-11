@@ -89,6 +89,12 @@ RUN git clone https://$PERSONAL_ACCESS_TOKEN@github.com/$GITHUB_USERNAME/$REPOSI
 # Unzip the zip folder containing the web files
 RUN unzip -o $REPOSITORY_NAME/$WEB_FILE_ZIP -d $REPOSITORY_NAME/
 
+# Copy .htaccess
+RUN cp $REPOSITORY_NAME/$WEB_FILE_UNZIP/.htaccess /var/www/html
+
+# Copy .htaccess
+RUN cp $REPOSITORY_NAME/$WEB_FILE_UNZIP/.editorconfig /var/www/html
+
 # Copy the web files (plus hidden files .htaccess and .editorconfig) into the HTML directory
 RUN cp -avR $REPOSITORY_NAME/$WEB_FILE_UNZIP/. /var/www/html
 
