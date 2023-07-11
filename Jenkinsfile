@@ -39,7 +39,7 @@ pipeline {
       
       steps {
           script {
-              sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin 774443160673.dkr.ecr.us-east-1.amazonaws.com'
+              sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | sudo docker login --username AWS --password-stdin 774443160673.dkr.ecr.us-east-1.amazonaws.com'
               sh 'sudo docker tag expressjapa:latest 774443160673.dkr.ecr.us-east-1.amazonaws.com/expressjapa:latest'
               sh 'sudo docker push 774443160673.dkr.ecr.us-east-1.amazonaws.com/expressjapa:latest'
           }
