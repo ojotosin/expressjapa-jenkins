@@ -12,4 +12,4 @@ docker build \
 --build-arg RDS_DB_NAME='expressjapa_db_v1' \
 --build-arg RDS_MASTER_USERNAME='mysqluser' \
 --build-arg RDS_DB_PASSWORD='mysqlpassword' \
--t expressjapa .    # tag name
+-t expressjapa-v1 .    # tag name
