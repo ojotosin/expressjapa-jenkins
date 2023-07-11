@@ -2,6 +2,7 @@
 
 # Run the docker build command
 docker build \
+--no-cache \
 --build-arg PERSONAL_ACCESS_TOKEN='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' \
 --build-arg GITHUB_USERNAME='ojotosin' \
 --build-arg REPOSITORY_NAME='expressjapa-jenkins'  \
