@@ -93,10 +93,10 @@ RUN unzip -o $REPOSITORY_NAME/$WEB_FILE_ZIP -d $REPOSITORY_NAME/
 RUN cp -avR $REPOSITORY_NAME/$WEB_FILE_UNZIP/. /var/www/html
 
 # Copy .htaccess
-RUN cp .htaccess /var/www/html
+RUN cp $REPOSITORY_NAME/$WEB_FILE_UNZIP/.htaccess /var/www/html
 
 # Copy .htaccess
-RUN cp .editorconfig /var/www/html
+RUN cp $REPOSITORY_NAME/$WEB_FILE_UNZIP/.editorconfig /var/www/html
 
 # Remove the cloned repo
 RUN rm -rf $REPOSITORY_NAME
