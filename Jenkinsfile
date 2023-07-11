@@ -52,7 +52,7 @@ pipeline {
       }
       
       steps {
-          dir('../terraform-web-infrastructure') {
+          dir('terraform-web-infrastructure') {
             sh 'terraform init'
             sh 'terraform apply -auto-approve'
           }
