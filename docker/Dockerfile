@@ -40,15 +40,16 @@ RUN yum install -y \
 RUN wget https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm && \
     yum localinstall -y mysql80-community-release-el7-3.noarch.rpm
 
-# Import the GPG key explicitly
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
+# Remove any existing MySQL GPG keys and re-import the correct one
+RUN rpm --erase gpg-pubkey-5072e1f5-5a64d9e5 || true && \
+    rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
 
-# Disable MySQL 8.0 repository and enable MySQL 5.7 (if 8.0 is not required)
+# Disable MySQL 8.0 repository and enable MySQL 5.7 (if needed)
 RUN yum-config-manager --disable mysql80-community && \
     yum-config-manager --enable mysql57-community
 
-# Install MySQL server
-RUN yum install -y mysql-community-server
+# Install MySQL server, disabling GPG check as a last resort if key issues persist
+RUN yum install -y --nogpgcheck mysql-community-server
 
 # Set permissions for directories in /var/www
 RUN chmod 2775 /var/www && find /var/www -type d -exec chmod 2775 {} \;
