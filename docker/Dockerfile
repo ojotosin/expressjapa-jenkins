@@ -36,8 +36,8 @@ RUN yum install -y \
     php-intl \
     php-zip
 
-# Enable MySQL 8.0 using Amazon Linux Extras and install MySQL Server
-RUN amazon-linux-extras enable mysql8.0 && \
+# Enable MySQL 5.7 and install it using Amazon Linux Extras
+RUN amazon-linux-extras enable mysql57 && \
     yum clean metadata && \
     yum install -y mysql-server
 
