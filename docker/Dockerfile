@@ -40,6 +40,9 @@ RUN yum install -y \
 RUN wget https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm && \
     yum localinstall -y mysql80-community-release-el7-3.noarch.rpm
 
+# Import the GPG key explicitly
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
+
 # Disable MySQL 8.0 repository and enable MySQL 5.7 (if 8.0 is not required)
 RUN yum-config-manager --disable mysql80-community && \
     yum-config-manager --enable mysql57-community
