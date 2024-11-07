@@ -42,6 +42,9 @@ RUN wget https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm
 # Import the GPG key for the MySQL repository
 RUN rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
 
+# Attempt to install MySQL Community Server with GPG check
+RUN yum install mysql-community-server -y || yum install --nogpgcheck mysql-community-server -y
+
 # Install the MySQL repository package
 RUN yum localinstall mysql80-community-release-el7-3.noarch.rpm -y
 
