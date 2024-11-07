@@ -36,20 +36,10 @@ RUN yum install -y \
     php-intl \
     php-zip
 
-# Download the MySQL repository package
-RUN wget https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm
-
-# Import the GPG key for the MySQL repository
-RUN rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
-
-# Attempt to install MySQL Community Server with GPG check
-RUN yum install mysql-community-server -y || yum install --nogpgcheck mysql-community-server -y
-
-# Install the MySQL repository package
-RUN yum localinstall mysql80-community-release-el7-3.noarch.rpm -y
-
-# Install the MySQL community server package
-RUN yum install mysql-community-server -y
+# Enable MySQL 8.0 using Amazon Linux Extras and install MySQL Server
+RUN amazon-linux-extras enable mysql8.0 && \
+    yum clean metadata && \
+    yum install -y mysql-server
 
 # Set permissions for directories in /var/www
 RUN chmod 2775 /var/www && find /var/www -type d -exec chmod 2775 {} \;
