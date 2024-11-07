@@ -36,10 +36,16 @@ RUN yum install -y \
     php-intl \
     php-zip
 
-# Enable MySQL 5.7 and install it using Amazon Linux Extras
-RUN amazon-linux-extras enable mysql57 && \
-    yum clean metadata && \
-    yum install -y mysql-server
+# Download and install the MySQL repository package for Amazon Linux 2
+RUN wget https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm && \
+    yum localinstall -y mysql80-community-release-el7-3.noarch.rpm
+
+# Disable MySQL 8.0 repository and enable MySQL 5.7 (if 8.0 is not required)
+RUN yum-config-manager --disable mysql80-community && \
+    yum-config-manager --enable mysql57-community
+
+# Install MySQL server
+RUN yum install -y mysql-community-server
 
 # Set permissions for directories in /var/www
 RUN chmod 2775 /var/www && find /var/www -type d -exec chmod 2775 {} \;
