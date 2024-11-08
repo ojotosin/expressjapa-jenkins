@@ -1,6 +1,9 @@
 # Use the latest version of the Amazon Linux base image
 FROM amazonlinux:2
 
+# Clear Cache and Free Space
+RUN yum clean all && rm -rf /var/cache/yum
+
 # Update all installed packages to latest versions
 RUN yum update -y
 
