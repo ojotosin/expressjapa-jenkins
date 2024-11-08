@@ -1,3 +1,25 @@
+
+pipeline {
+    agent any
+    stages {
+        stage('Run Cleanup Script') {
+            steps {
+                sh './cleanup.sh'
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Cleanup completed successfully.'
+        }
+        failure {
+            echo 'Cleanup failed.'
+        }
+    }
+}
+
+
+
 /*pipeline {
   agent {
     node {
@@ -9,14 +31,14 @@
     stage('Clone Repository') {
       steps {
         checkout([$class: 'GitSCM',
-                  branches: [[name: '*/main']],
-/*                  userRemoteConfigs: [[
-                    url: 'git@github.com:ojotosin/expressjapa-jenkins.git',
-                    credentialsId: 'github-jenkins-ssh-key'
-                  ]]
-                ])
-      }
-    }
+//                  branches: [[name: '*/main']],
+//                  userRemoteConfigs: [[
+//                    url: 'git@github.com:ojotosin/expressjapa-jenkins.git',
+//                    credentialsId: 'github-jenkins-ssh-key'
+//                  ]]
+//                ])
+//      }
+//    }
     
     //triggers {
     //    pollSCM('*/5 * * * *')
@@ -62,22 +84,3 @@
 }
 */
 
-
-pipeline {
-    agent any
-    stages {
-        stage('Run Cleanup Script') {
-            steps {
-                sh './cleanup.sh'
-            }
-        }
-    }
-    post {
-        success {
-            echo 'Cleanup completed successfully.'
-        }
-        failure {
-            echo 'Cleanup failed.'
-        }
-    }
-}
