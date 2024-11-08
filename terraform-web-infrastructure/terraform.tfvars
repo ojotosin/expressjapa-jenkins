@@ -21,7 +21,7 @@ ssh_location = "73.103.144.223/32"
 # rds variables
 database_snapshot_identifier = "expressjapadb-v1-snapshot"
 database_instance_class      = "db.t2.micro"
-database_instance_identifier = "expressjapadb-v1"
+database_instance_identifier = "expressjapadb-v1.1"
 multi_az_deployment          = false
 
 
