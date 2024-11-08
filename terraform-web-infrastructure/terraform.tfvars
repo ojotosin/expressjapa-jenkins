@@ -40,7 +40,7 @@ env_file_name        = "expressjapa.env"
 
 # ecs variables
 architecture    = "X86_64"                                                          // cpu architecture the docker image was built on
-container_image = "774443160673.dkr.ecr.us-east-1.amazonaws.com/travelfresh:latest" // image uri from your ecr
+container_image = "774443160673.dkr.ecr.us-east-1.amazonaws.com/expressjapa:latest" // image uri from your ecr
 
 
 # route53 variables
